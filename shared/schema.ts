@@ -92,9 +92,9 @@ export const flightSearchSchema = z.object({
   to: z.string().min(1, "Destination city is required"),
   departureDate: z.string().min(1, "Departure date is required"),
   returnDate: z.string().optional(),
-  adults: z.number().min(1).max(9),
-  children: z.number().min(0).max(9),
-  infants: z.number().min(0).max(9),
+  adults: z.coerce.number().min(1).max(9),
+  children: z.coerce.number().min(0).max(9),
+  infants: z.coerce.number().min(0).max(9),
   seatClass: z.enum(["economy", "business"]),
   tripType: z.enum(["roundtrip", "oneway", "multicity"]),
 });

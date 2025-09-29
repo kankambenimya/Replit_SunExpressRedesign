@@ -1,4 +1,5 @@
-import { QueryClient, QueryFunction } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
+import type { QueryFunctionContext, QueryKey } from "@tanstack/react-query";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
@@ -24,12 +25,32 @@ export async function apiRequest(
 }
 
 type UnauthorizedBehavior = "returnNull" | "throw";
-export const getQueryFn: <T>(options: {
-  on401: UnauthorizedBehavior;
-}) => QueryFunction<T> =
-  ({ on401: unauthorizedBehavior }) =>
-  async ({ queryKey }) => {
-    const res = await fetch(queryKey.join("/") as string, {
+export const getQueryFn = <T>(options: { on401: UnauthorizedBehavior }) =>
+  async (ctx: QueryFunctionContext<QueryKey>): Promise<T | null> => {
+    const unauthorizedBehavior = options.on401;
+    // Build URL from queryKey: [baseUrl, params?]
+    const queryKey = ctx.queryKey as readonly [string, Record<string, unknown>?];
+    let url = String(queryKey[0] ?? "");
+    const maybeParams = queryKey[1];
+
+    if (maybeParams && typeof maybeParams === "object") {
+      const searchParams = new URLSearchParams();
+      for (const [key, value] of Object.entries(maybeParams as Record<string, unknown>)) {
+        if (value === undefined || value === null) continue;
+        if (Array.isArray(value)) {
+          for (const v of value) {
+            if (v === undefined || v === null) continue;
+            searchParams.append(key, String(v));
+          }
+        } else {
+          searchParams.set(key, String(value));
+        }
+      }
+      const qs = searchParams.toString();
+      if (qs) url += (url.includes("?") ? "&" : "?") + qs;
+    }
+
+    const res = await fetch(url, {
       credentials: "include",
     });
 
