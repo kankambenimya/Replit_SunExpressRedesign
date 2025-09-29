@@ -12,7 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { Check, ChevronsUpDown, Calendar as CalendarIcon, ArrowRightLeft, PlaneTakeoff, PlaneLanding, Search } from "lucide-react";
+import { Check, Calendar as CalendarIcon, ArrowRightLeft, PlaneTakeoff, PlaneLanding, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { flightSearchSchema } from "@shared/schema";
 import type { FlightSearchFormData } from "@/lib/types";
@@ -135,7 +135,6 @@ export default function SearchForm({ className }: SearchFormProps) {
                               <PlaneTakeoff className="h-5 w-5 text-gray-400" />
                               <span>{field.value || "Select departure"}</span>
                             </div>
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
@@ -199,7 +198,6 @@ export default function SearchForm({ className }: SearchFormProps) {
                                 <PlaneLanding className="h-5 w-5 text-gray-400" />
                                 <span>{field.value || "Select destination"}</span>
                               </div>
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
@@ -240,11 +238,11 @@ export default function SearchForm({ className }: SearchFormProps) {
                         type="button"
                         variant="ghost"
                         size="sm"
-                        className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 [&_svg]:!size-5"
                         onClick={swapAirports}
                         data-testid="swap-airports"
                       >
-                        <ArrowRightLeft className="h-4 w-4" />
+                        <ArrowRightLeft className="h-5 w-5" />
                       </Button>
                     </div>
                     <FormMessage />
