@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { flightSearchSchema } from "@shared/schema";
 import type { FlightSearchFormData } from "@/lib/types";
 import { AIRPORTS } from "@/lib/constants";
-import PassengerDropdown from "../passenger-dropdown";
+import PassengerDropdown from "@/components/passenger-dropdown";
 import { useQuery } from "@tanstack/react-query";
 
 interface FlightSearchFormProps {
