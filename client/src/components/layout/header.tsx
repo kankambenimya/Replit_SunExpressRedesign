@@ -18,10 +18,10 @@ export default function Header() {
 
   const navigation = [
     { name: t("header_book"), href: href("/"), match: new RegExp(`^/${locale}/?$`).test(location) },
-    { name: t("header_checkin"), href: href("/checkin"), match: new RegExp(`^/${locale}/checkin`).test(location) },
-    { name: t("header_destinations"), href: href("/destinations"), match: new RegExp(`^/${locale}/destinations`).test(location) },
-    { name: t("header_offers"), href: href("/offers"), match: new RegExp(`^/${locale}/offers`).test(location) },
-    { name: t("header_my_booking"), href: href("/my-booking"), match: new RegExp(`^/${locale}/my-booking`).test(location) },
+    { name: t("header_checkin"), href: href("/checkin"), match: new RegExp(`^/${locale}/checkin/?$`).test(location) },
+    { name: t("header_destinations"), href: href("/destinations"), match: new RegExp(`^/${locale}/destinations/?$`).test(location) },
+    { name: t("header_offers"), href: href("/offers"), match: new RegExp(`^/${locale}/offers/?$`).test(location) },
+    { name: t("header_my_booking"), href: href("/my-booking"), match: new RegExp(`^/${locale}/my-booking/?$`).test(location) },
   ];
 
   return (
