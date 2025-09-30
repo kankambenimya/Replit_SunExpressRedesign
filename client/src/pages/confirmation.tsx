@@ -6,12 +6,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { CheckCircle, Download, Mail, Plane, Calendar, MapPin, Users, CreditCard } from "lucide-react";
 import { format } from "date-fns";
 import type { BookingWithFlight } from "@/lib/types";
+import { useI18n } from "@/lib/i18n";
 
 interface ConfirmationPageProps {
   bookingRef: string;
 }
 
 export default function Confirmation({ bookingRef }: ConfirmationPageProps) {
+  const { href, t } = useI18n();
   const { data: booking, isLoading, error } = useQuery<BookingWithFlight>({
     queryKey: ["/api/bookings", bookingRef],
     enabled: !!bookingRef,
@@ -237,11 +239,11 @@ export default function Confirmation({ bookingRef }: ConfirmationPageProps) {
               </Button>
               <Button
                 className="bg-sunblue hover:bg-blue-700 flex items-center space-x-2"
-                onClick={() => window.location.href = "/"}
+                onClick={() => window.location.href = href("/")}
                 data-testid="book-another-flight"
               >
                 <Plane className="h-4 w-4" />
-                <span>Book Another Flight</span>
+                <span>{t("confirm_book_another")}</span>
               </Button>
             </div>
           </CardContent>

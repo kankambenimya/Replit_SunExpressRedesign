@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -10,6 +10,15 @@ import Booking from "@/pages/booking";
 import Confirmation from "@/pages/confirmation";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+// locale helpers are used by pages/components
+
+function RedirectToDefault() {
+  const [, setLocation] = useLocation();
+  // redirect to /en while preserving search/hash
+  const search = typeof window !== "undefined" ? (window.location.search + window.location.hash) : "";
+  setLocation(`/en${search}`);
+  return null;
+}
 
 function Router() {
   return (
@@ -17,14 +26,19 @@ function Router() {
       <Header />
       <main className="flex-1">
         <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/search" component={SearchResults} />
-          <Route path="/booking/:flightId">
+          {/* default root -> redirect to /en */}
+          <Route path="/" component={RedirectToDefault} />
+
+          {/* localized routes */}
+          <Route path="/:lang" component={Home} />
+          <Route path="/:lang/search" component={SearchResults} />
+          <Route path="/:lang/booking/:flightId">
             {(params) => <Booking flightId={params.flightId} />}
           </Route>
-          <Route path="/confirmation/:bookingRef">
+          <Route path="/:lang/confirmation/:bookingRef">
             {(params) => <Confirmation bookingRef={params.bookingRef} />}
           </Route>
+          {/* catch-all, including unknown locale */}
           <Route component={NotFound} />
         </Switch>
       </main>
