@@ -9,17 +9,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { useI18n } from "@/lib/i18n";
 
 export default function Header() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { locale, switchLocale, href, t } = useI18n();
 
   const navigation = [
-    { name: "Book", href: "/", current: location === "/" },
-    { name: "Check-in", href: "/checkin", current: location === "/checkin" },
-    { name: "Destinations", href: "/destinations", current: location === "/destinations" },
-    { name: "Offers", href: "/offers", current: location === "/offers" },
-    { name: "My Booking", href: "/my-booking", current: location === "/my-booking" },
+    { name: t("header_book"), href: href("/"), current: new RegExp(`^/${locale}/?$`).test(location) },
+    { name: t("header_checkin"), href: href("/checkin"), current: new RegExp(`^/${locale}/checkin`).test(location) },
+    { name: t("header_destinations"), href: href("/destinations"), current: new RegExp(`^/${locale}/destinations`).test(location) },
+    { name: t("header_offers"), href: href("/offers"), current: new RegExp(`^/${locale}/offers`).test(location) },
+    { name: t("header_my_booking"), href: href("/my-booking"), current: new RegExp(`^/${locale}/my-booking`).test(location) },
   ];
 
   return (
@@ -27,7 +29,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center" data-testid="logo-link">
+          <Link href={href("/")} className="flex items-center" data-testid="logo-link">
             <div className="flex-shrink-0 flex items-center">
               <div className="w-8 h-8 bg-sunblue rounded-full flex items-center justify-center mr-2">
                 <Sun className="text-sunorange h-4 w-4" />
@@ -61,13 +63,13 @@ export default function Header() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="hidden md:flex items-center space-x-2" data-testid="language-selector">
                   <Globe className="h-4 w-4" />
-                  <span>EN</span>
+                  <span>{locale.toUpperCase()}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem data-testid="language-en">English</DropdownMenuItem>
-                <DropdownMenuItem data-testid="language-tr">Türkçe</DropdownMenuItem>
-                <DropdownMenuItem data-testid="language-de">Deutsch</DropdownMenuItem>
+                <DropdownMenuItem data-testid="language-en" onSelect={() => switchLocale("en")}>English</DropdownMenuItem>
+                <DropdownMenuItem data-testid="language-tr" onSelect={() => switchLocale("tr")}>Türkçe</DropdownMenuItem>
+                <DropdownMenuItem data-testid="language-de" onSelect={() => switchLocale("de")}>Deutsch</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -103,7 +105,7 @@ export default function Header() {
                   <div className="border-t pt-4">
                     <div className="flex items-center space-x-2 text-gray-600">
                       <Globe className="h-4 w-4" />
-                      <span>Language: EN</span>
+                      <span>{t("lang_label")}: {locale.toUpperCase()}</span>
                     </div>
                   </div>
                 </div>

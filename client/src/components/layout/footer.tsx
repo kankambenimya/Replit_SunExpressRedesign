@@ -1,7 +1,9 @@
 import { Link } from "wouter";
 import { Sun, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export default function Footer() {
+  const { href } = useI18n();
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,27 +40,27 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-gray-400 hover:text-white transition-colors" data-testid="footer-flights">
+                <Link href={href("/")} className="text-gray-400 hover:text-white transition-colors" data-testid="footer-flights">
                   Flights
                 </Link>
               </li>
               <li>
-                <Link href="/destinations" className="text-gray-400 hover:text-white transition-colors" data-testid="footer-destinations">
+                <Link href={href("/destinations")} className="text-gray-400 hover:text-white transition-colors" data-testid="footer-destinations">
                   Destinations
                 </Link>
               </li>
               <li>
-                <Link href="/offers" className="text-gray-400 hover:text-white transition-colors" data-testid="footer-offers">
+                <Link href={href("/offers")} className="text-gray-400 hover:text-white transition-colors" data-testid="footer-offers">
                   Special Offers
                 </Link>
               </li>
               <li>
-                <Link href="/checkin" className="text-gray-400 hover:text-white transition-colors" data-testid="footer-checkin">
+                <Link href={href("/checkin")} className="text-gray-400 hover:text-white transition-colors" data-testid="footer-checkin">
                   Check-in
                 </Link>
               </li>
               <li>
-                <Link href="/my-booking" className="text-gray-400 hover:text-white transition-colors" data-testid="footer-booking">
+                <Link href={href("/my-booking")} className="text-gray-400 hover:text-white transition-colors" data-testid="footer-booking">
                   My Booking
                 </Link>
               </li>

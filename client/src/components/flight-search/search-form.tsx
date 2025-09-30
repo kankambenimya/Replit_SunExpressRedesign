@@ -19,6 +19,7 @@ import type { FlightSearchFormData } from "@/lib/types";
 import { AIRPORTS } from "@/lib/constants";
 import PassengerSelector from "./passenger-selector";
 import { useQuery } from "@tanstack/react-query";
+import { useI18n } from "@/lib/i18n";
 
 interface SearchFormProps {
   className?: string;
@@ -26,6 +27,7 @@ interface SearchFormProps {
 
 export default function SearchForm({ className }: SearchFormProps) {
   const [, setLocation] = useLocation();
+  const { href } = useI18n();
   const [fromOpen, setFromOpen] = useState(false);
   const [toOpen, setToOpen] = useState(false);
   const [departureCalendarOpen, setDepartureCalendarOpen] = useState(false);
@@ -66,7 +68,7 @@ export default function SearchForm({ className }: SearchFormProps) {
       tripType: data.tripType,
     });
 
-    setLocation(`/search?${searchParams.toString()}`);
+    setLocation(href(`/search?${searchParams.toString()}`));
   };
 
   const swapAirports = () => {

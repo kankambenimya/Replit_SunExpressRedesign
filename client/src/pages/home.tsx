@@ -10,10 +10,12 @@ import SearchForm from "@/components/flight-search/search-form";
 import DestinationCard from "@/components/destinations/destination-card";
 import { apiRequest } from "@/lib/queryClient";
 import type { Destination } from "@shared/schema";
+import { useI18n } from "@/lib/i18n";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const { toast } = useToast();
+  const { t, href } = useI18n();
 
   const { data: destinations = [], isLoading: destinationsLoading } = useQuery<Destination[]>({
     queryKey: ["/api/destinations", { popular: true }],
@@ -52,13 +54,13 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              Your Sun Specialist
+              {t("hero_title")}
             </h1>
             <p className="text-xl text-blue-100 mb-2">
-              Discover amazing destinations with SunExpress
+              {t("hero_tagline_1")}
             </p>
             <p className="text-lg text-blue-200">
-              From Europe to Turkey and beyond
+              {t("hero_tagline_2")}
             </p>
           </div>
 
@@ -67,13 +69,13 @@ export default function Home() {
             <Tabs defaultValue="flights" className="w-full">
               <TabsList className="grid w-fit grid-cols-3 mb-6 bg-white/10 backdrop-blur-sm">
                 <TabsTrigger value="flights" className="data-[state=active]:bg-white data-[state=active]:text-sunblue" data-testid="flights-tab">
-                  Flights
+                  {t("tab_flights")}
                 </TabsTrigger>
                 <TabsTrigger value="hotels" className="data-[state=active]:bg-white data-[state=active]:text-sunblue" data-testid="hotels-tab">
-                  Hotels
+                  {t("tab_hotels")}
                 </TabsTrigger>
                 <TabsTrigger value="packages" className="data-[state=active]:bg-white data-[state=active]:text-sunblue" data-testid="packages-tab">
-                  Packages
+                  {t("tab_packages")}
                 </TabsTrigger>
               </TabsList>
               
@@ -111,8 +113,8 @@ export default function Home() {
       <section className="py-12 bg-gradient-to-r from-sunorange to-orange-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-white">
-            <h2 className="text-3xl font-bold mb-4">Early Bird Special</h2>
-            <p className="text-xl mb-6">Book now and save up to 25% on selected routes to Turkey</p>
+            <h2 className="text-3xl font-bold mb-4">{t("offers_title")}</h2>
+            <p className="text-xl mb-6">{t("offers_subtitle")}</p>
             <div className="flex flex-wrap justify-center gap-4 mb-6">
               <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 text-center min-w-[200px]">
                 <div className="text-2xl font-bold">€89</div>
@@ -133,7 +135,7 @@ export default function Home() {
               className="bg-white text-sunorange hover:bg-gray-100"
               data-testid="view-offers-button"
             >
-              View All Offers
+              {t("offers_view_all")}
             </Button>
           </div>
         </div>
@@ -143,8 +145,8 @@ export default function Home() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Popular Destinations</h2>
-            <p className="text-lg text-gray-600">Discover our most loved destinations</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t("popular_title")}</h2>
+            <p className="text-lg text-gray-600">{t("popular_subtitle")}</p>
           </div>
 
           {destinationsLoading ? (
@@ -167,8 +169,7 @@ export default function Home() {
                   key={destination.id}
                   destination={destination}
                   onClick={() => {
-                    // Navigate to destination-specific search
-                    window.location.href = `/?to=${encodeURIComponent(destination.city)}`;
+                    window.location.href = href(`/search?to=${encodeURIComponent(destination.city)}`);
                   }}
                 />
               ))}
@@ -182,7 +183,7 @@ export default function Home() {
               className="bg-sunblue hover:bg-blue-700"
               data-testid="view-destinations-button"
             >
-              View All Destinations
+              {t("destinations_view_all")}
             </Button>
           </div>
         </div>
@@ -192,8 +193,8 @@ export default function Home() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose SunExpress?</h2>
-            <p className="text-lg text-gray-600">Your comfort and satisfaction are our priority</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t("why_title")}</h2>
+            <p className="text-lg text-gray-600">{t("why_subtitle")}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -201,7 +202,7 @@ export default function Home() {
               <div className="w-16 h-16 bg-sunblue rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="text-white h-8 w-8" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Safety First</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{t("feature_safety")}</h3>
               <p className="text-gray-600">Award-winning safety record with the latest aircraft technology and rigorous maintenance standards.</p>
             </div>
 
@@ -209,7 +210,7 @@ export default function Home() {
               <div className="w-16 h-16 bg-sunorange rounded-full flex items-center justify-center mx-auto mb-4">
                 <Clock className="text-white h-8 w-8" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">On-Time Performance</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{t("feature_otp")}</h3>
               <p className="text-gray-600">Reliable schedules with industry-leading punctuality rates to get you to your destination on time.</p>
             </div>
 
@@ -217,8 +218,8 @@ export default function Home() {
               <div className="w-16 h-16 bg-sunblue rounded-full flex items-center justify-center mx-auto mb-4">
                 <Heart className="text-white h-8 w-8" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Exceptional Service</h3>
-              <p className="text-gray-600">Warm Turkish hospitality combined with European service standards for an unforgettable journey.</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{t("feature_service")}</h3>
+              <p className="text-gray-600">{t("feature_service_desc")}</p>
             </div>
           </div>
 
@@ -226,26 +227,26 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="bg-gray-50 p-6 rounded-lg text-center hover:bg-gray-100 transition-colors cursor-pointer" data-testid="service-baggage">
               <Luggage className="text-sunblue h-12 w-12 mx-auto mb-3" />
-              <h4 className="font-semibold text-gray-900 mb-2">Baggage</h4>
-              <p className="text-sm text-gray-600">Generous baggage allowances</p>
+              <h4 className="font-semibold text-gray-900 mb-2">{t("service_baggage")}</h4>
+              <p className="text-sm text-gray-600">{t("service_baggage_desc")}</p>
             </div>
 
             <div className="bg-gray-50 p-6 rounded-lg text-center hover:bg-gray-100 transition-colors cursor-pointer" data-testid="service-seats">
               <Armchair className="text-sunblue h-12 w-12 mx-auto mb-3" />
-              <h4 className="font-semibold text-gray-900 mb-2">Seat Selection</h4>
-              <p className="text-sm text-gray-600">Choose your perfect seat</p>
+              <h4 className="font-semibold text-gray-900 mb-2">{t("service_seats")}</h4>
+              <p className="text-sm text-gray-600">{t("service_seats_desc")}</p>
             </div>
 
             <div className="bg-gray-50 p-6 rounded-lg text-center hover:bg-gray-100 transition-colors cursor-pointer" data-testid="service-meals">
               <Utensils className="text-sunblue h-12 w-12 mx-auto mb-3" />
-              <h4 className="font-semibold text-gray-900 mb-2">Meals</h4>
-              <p className="text-sm text-gray-600">Delicious onboard dining</p>
+              <h4 className="font-semibold text-gray-900 mb-2">{t("service_meals")}</h4>
+              <p className="text-sm text-gray-600">{t("service_meals_desc")}</p>
             </div>
 
             <div className="bg-gray-50 p-6 rounded-lg text-center hover:bg-gray-100 transition-colors cursor-pointer" data-testid="service-wifi">
               <Wifi className="text-sunblue h-12 w-12 mx-auto mb-3" />
-              <h4 className="font-semibold text-gray-900 mb-2">Wi-Fi</h4>
-              <p className="text-sm text-gray-600">Stay connected in the sky</p>
+              <h4 className="font-semibold text-gray-900 mb-2">{t("service_wifi")}</h4>
+              <p className="text-sm text-gray-600">{t("service_wifi_desc")}</p>
             </div>
           </div>
         </div>
@@ -254,13 +255,13 @@ export default function Home() {
       {/* Newsletter Section */}
       <section className="py-12 bg-sunblue">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Stay Updated</h2>
-          <p className="text-blue-100 mb-8 text-lg">Get the latest deals and travel inspiration delivered to your inbox</p>
+          <h2 className="text-3xl font-bold text-white mb-4">{t("newsletter_title")}</h2>
+          <p className="text-blue-100 mb-8 text-lg">{t("newsletter_subtitle")}</p>
           
           <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <Input
               type="email"
-              placeholder="Enter your email"
+              placeholder={t("newsletter_placeholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="flex-1 bg-white"
@@ -272,7 +273,7 @@ export default function Home() {
               className="bg-sunorange hover:bg-orange-600 text-white font-bold"
               data-testid="newsletter-subscribe-button"
             >
-              Subscribe
+              {t("newsletter_subscribe")}
             </Button>
           </form>
         </div>
