@@ -17,11 +17,11 @@ export default function Header() {
   const { locale, switchLocale, href, t } = useI18n();
 
   const navigation = [
-    { name: t("header_book"), href: href("/"), current: new RegExp(`^/${locale}/?$`).test(location) },
-    { name: t("header_checkin"), href: href("/checkin"), current: new RegExp(`^/${locale}/checkin`).test(location) },
-    { name: t("header_destinations"), href: href("/destinations"), current: new RegExp(`^/${locale}/destinations`).test(location) },
-    { name: t("header_offers"), href: href("/offers"), current: new RegExp(`^/${locale}/offers`).test(location) },
-    { name: t("header_my_booking"), href: href("/my-booking"), current: new RegExp(`^/${locale}/my-booking`).test(location) },
+    { name: t("header_book"), href: href("/"), match: new RegExp(`^/${locale}/?$`).test(location) },
+    { name: t("header_checkin"), href: href("/checkin"), match: new RegExp(`^/${locale}/checkin/?$`).test(location) },
+    { name: t("header_destinations"), href: href("/destinations"), match: new RegExp(`^/${locale}/destinations/?$`).test(location) },
+    { name: t("header_offers"), href: href("/offers"), match: new RegExp(`^/${locale}/offers/?$`).test(location) },
+    { name: t("header_my_booking"), href: href("/my-booking"), match: new RegExp(`^/${locale}/my-booking/?$`).test(location) },
   ];
 
   return (
@@ -45,7 +45,7 @@ export default function Header() {
                 key={item.name}
                 href={item.href}
                 className={`font-medium transition-colors ${
-                  item.current
+                  item.match
                     ? "text-sunblue"
                     : "text-gray-700 hover:text-sunblue"
                 }`}
@@ -92,7 +92,7 @@ export default function Header() {
                       <Link
                         href={item.href}
                         className={`text-lg font-medium transition-colors ${
-                          item.current
+                          item.match
                             ? "text-sunblue"
                             : "text-gray-700 hover:text-sunblue"
                         }`}
