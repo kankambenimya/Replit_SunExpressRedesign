@@ -148,15 +148,18 @@ const dictionaries: Record<Locale, Dictionary> = {
 };
 
 export function t(key: string): string {
-  const locale = getLocaleFromPath(window.location.pathname);
+  const pathname = typeof window !== "undefined" && window.location ? window.location.pathname : "/";
+  const locale = getLocaleFromPath(pathname);
   const dict = dictionaries[locale] || dictionaries.en;
   return dict[key] ?? dictionaries.en[key] ?? key;
 }
 
 export function useI18n() {
-  const locale = getLocaleFromPath(window.location.pathname);
+  const pathname = typeof window !== "undefined" && window.location ? window.location.pathname : "/";
+  const locale = getLocaleFromPath(pathname);
   const href = (path: string) => buildLocalizedPath(locale, path);
   const switchLocale = (newLocale: Locale) => {
+    if (typeof window === "undefined" || !window.location) return;
     const next = replaceLocaleInPath(window.location.pathname + window.location.search + window.location.hash, newLocale);
     window.location.assign(next);
   };
